@@ -1,11 +1,14 @@
 export default ({ ...config }) => ({
-  ...config,
-  icon:
-    "https://github.com/expo/expo/blob/master/templates/expo-template-blank/assets/icon.png?raw=true",
+  icon: './assets/ios.png',
   splash: {
-    image:
-      "https://github.com/expo/expo/blob/master/templates/expo-template-blank/assets/splash.png?raw=true",
-    resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    image: './assets/iphone-preview.png',
+    resizeMode: 'cover',
+    backgroundColor: '#ffffff',
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: './assets/adaptive.png',
+      backgroundColor: '#FFFFFF',
+    },
   },
 });

@@ -1,9 +1,15 @@
-import AppLoading from "expo-app-loading";
-import { Asset } from "expo-asset";
-import Constants from "expo-constants";
-import * as SplashScreen from "expo-splash-screen";
-import * as Updates from "expo-updates";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import AppLoading from 'expo-app-loading';
+import { Asset, useAssets } from 'expo-asset';
+
+import Constants from 'expo-constants';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Updates from 'expo-updates';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   Animated,
   Button,
@@ -11,7 +17,7 @@ import {
   StyleSheet,
   Text,
   View,
-} from "react-native";
+} from 'react-native';
 
 // Instruct SplashScreen not to hide yet, we want to do this manually
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -19,23 +25,38 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 });
 
 export default function App() {
-  return (
-    <AnimatedAppLoader image={{ uri: Constants.manifest.splash.image }}>
+  const [assets, error] = useAssets([
+    require('./assets/iphone-preview.png'),
+    require('./assets/ios.png'),
+    require('./assets/adaptive.png'),
+  ]);
+
+  return assets ? (
+    <AnimatedAppLoader
+      image={require('./assets/iphone-preview.png')}>
       <MainScreen />
     </AnimatedAppLoader>
+  ) : (
+    <View>
+      <Text>an error occurred</Text>
+    </View>
   );
 }
 
 function AnimatedAppLoader({ children, image }) {
-  const [isSplashReady, setSplashReady] = useState(false);
+  const [isSplashReady, setSplashReady] =
+    useState(false);
 
   const startAsync = useCallback(
     // If you use a local image with require(...), use `Asset.fromModule`
-    () => Asset.fromURI(image).downloadAsync(),
+    () => Asset.fromModule(image).downloadAsync(),
     [image]
   );
 
-  const onFinish = useCallback(() => setSplashReady(true), []);
+  const onFinish = useCallback(
+    () => setSplashReady(true),
+    []
+  );
 
   if (!isSplashReady) {
     return (
@@ -49,13 +70,27 @@ function AnimatedAppLoader({ children, image }) {
     );
   }
 
-  return <AnimatedSplashScreen image={image}>{children}</AnimatedSplashScreen>;
+  return (
+    <AnimatedSplashScreen image={image}>
+      {children}
+    </AnimatedSplashScreen>
+  );
 }
 
-function AnimatedSplashScreen({ children, image }) {
-  const animation = useMemo(() => new Animated.Value(1), []);
-  const [isAppReady, setAppReady] = useState(false);
-  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+function AnimatedSplashScreen({
+  children,
+  image,
+}) {
+  const animation = useMemo(
+    () => new Animated.Value(1),
+    []
+  );
+  const [isAppReady, setAppReady] =
+    useState(false);
+  const [
+    isSplashAnimationComplete,
+    setAnimationComplete,
+  ] = useState(false);
 
   useEffect(() => {
     if (isAppReady) {
@@ -88,16 +123,19 @@ function AnimatedSplashScreen({ children, image }) {
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: Constants.manifest.splash.backgroundColor,
+              backgroundColor:
+                Constants.manifest.splash
+                  .backgroundColor,
               opacity: animation,
             },
-          ]}
-        >
+          ]}>
           <Animated.Image
             style={{
-              width: "100%",
-              height: "100%",
-              resizeMode: Constants.manifest.splash.resizeMode || "contain",
+              width: '100%',
+              height: '100%',
+              resizeMode:
+                Constants.manifest.splash
+                  .resizeMode || 'contain',
               transform: [
                 {
                   scale: animation,
@@ -116,7 +154,7 @@ function AnimatedSplashScreen({ children, image }) {
 
 function MainScreen() {
   const onReloadPress = useCallback(() => {
-    if (Platform.OS === "web") {
+    if (Platform.OS === 'web') {
       location.reload();
     } else {
       Updates.reloadAsync();
@@ -127,22 +165,23 @@ function MainScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: "plum",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+        backgroundColor: 'plum',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <Text
         style={{
-          color: "black",
+          color: 'black',
           fontSize: 30,
           marginBottom: 15,
-          fontWeight: "bold",
-        }}
-      >
+          fontWeight: 'bold',
+        }}>
         Pretty Cool!
       </Text>
-      <Button title="Run Again" onPress={onReloadPress} />
+      <Button
+        title="Run Again"
+        onPress={onReloadPress}
+      />
     </View>
   );
 }
