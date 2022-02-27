@@ -1,6 +1,6 @@
 import AppLoading from 'expo-app-loading';
 import { Asset, useAssets } from 'expo-asset';
-
+import { GetStarted } from './src/screens/Getstarted';
 import Constants from 'expo-constants';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
@@ -14,6 +14,7 @@ import {
   Animated,
   Button,
   Platform,
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -151,6 +152,7 @@ function AnimatedSplashScreen({
     </View>
   );
 }
+// app entry point
 
 function MainScreen() {
   const onReloadPress = useCallback(() => {
@@ -162,26 +164,8 @@ function MainScreen() {
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'plum',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <Text
-        style={{
-          color: 'black',
-          fontSize: 30,
-          marginBottom: 15,
-          fontWeight: 'bold',
-        }}>
-        Pretty Cool!
-      </Text>
-      <Button
-        title="Run Again"
-        onPress={onReloadPress}
-      />
-    </View>
+    <SafeAreaView>
+      <GetStarted />
+    </SafeAreaView>
   );
 }
