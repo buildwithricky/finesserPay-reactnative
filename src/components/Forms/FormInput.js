@@ -27,11 +27,12 @@ placeholder={placeholder}
   );
 };
 const styles = (props) =>StyleSheet.create({
+
   input: {
    width:props,
     backgroundColor:'#F2F2F2',
     height:60,
-    marginRight:10,
+ 
     
     borderRadius:15,
 

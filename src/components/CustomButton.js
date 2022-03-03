@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   View,
+  Dimensions
 } from 'react-native';
 import {
   colors,
@@ -13,6 +14,8 @@ import {
 
 // custom buttons
 
+const {height,width} = Dimensions.get("screen")
+
 const CustomButton = ({
   title,
   onPress,
@@ -20,6 +23,7 @@ const CustomButton = ({
   color,
 }) => {
   return (
+    <View style={{border:''}}>
     <TouchableOpacity
       onPress={onPress}
       style={
@@ -32,6 +36,7 @@ const CustomButton = ({
         {title}
       </Text>
     </TouchableOpacity>
+    </View>
   );
 };
 
@@ -43,9 +48,9 @@ const styles = ({ background, color }) =>
     shadowOpacity: 0.4,
     shadowRadius: 2,  
     elevation: 5,
-      width: 343,
+      width: width *0.9,
+      marginVertical:10,
       height: 49,
-      marginBottom: 13,
       borderRadius: 15,
       alignItems: 'center',
       justifyContent: 'center',

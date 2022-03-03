@@ -5,10 +5,11 @@ import {
   Image,
   View,
   StyleSheet,
+  Dimensions
 } from 'react-native';
 
 const logo = require('../../assets/appflow/cipreview.png');
-
+const {height} = Dimensions.get("screen")
 import CustomButton from '../components/CustomButton';
 
 // get started screen
@@ -50,15 +51,13 @@ export const GetStarted = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    flex:1
+    height:height
   },
   btnGroup: {
-    margin: 50,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  slider: { flex: 1 },
+ alignItems:'center',
+height:height*0.2,
+justifyContent:'center',
+ padding:2
+  }
+ 
 });

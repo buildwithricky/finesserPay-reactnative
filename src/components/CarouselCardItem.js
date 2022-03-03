@@ -14,6 +14,8 @@ import {
 
 export const SLIDER_WIDTH =
   Dimensions.get('window').width;
+  export const SLIDER_HEIGHT =
+  Dimensions.get('window').height * 0.5;
 export const ITEM_WIDTH =
   Math.round(SLIDER_WIDTH);
 
@@ -43,12 +45,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: ITEM_WIDTH,
-    height: 447,
+    height: SLIDER_HEIGHT,
     resizeMode: 'cover',
   },
   header: {
-    fontSize: 32,
-
+    fontSize: fontSizes.md,
     lineHeight: 40,
     letterSpacing: 0,
 
