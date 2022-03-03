@@ -6,16 +6,20 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import { colors } from '../utils/utils';
+import {
+  colors,
+  fonts,
+  fontSizes,
+} from '../utils/utils';
 
 export const SLIDER_WIDTH =
   Dimensions.get('window').width;
 export const ITEM_WIDTH =
   Math.round(SLIDER_WIDTH);
 
-const CarouselCardItem = ({ item, index }) => {
+const CarouselCardItem = ({ item }) => {
   return (
-    <View style={styles.container} key={index}>
+    <View style={styles.container}>
       <Image
         source={item.path}
         style={styles.image}
@@ -43,18 +47,22 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   header: {
+    fontSize: 32,
+
+    lineHeight: 40,
+    letterSpacing: 0,
+
     color: colors.primaryColor,
-    fontSize: 28,
-    fontWeight: 'bold',
     paddingLeft: 20,
     paddingTop: 20,
+    fontFamily: fonts.bold,
   },
   body: {
     color: colors.secondaryColor,
-    fontSize: 18,
+    fontSize: fontSizes.sm,
+    lineHeight: fontSizes.md,
     paddingLeft: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
+    fontFamily: fonts.regular,
   },
 });
 

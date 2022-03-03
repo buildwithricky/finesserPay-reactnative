@@ -1,24 +1,37 @@
 import React from 'react';
-import CarouselCards, {
-  PaginationHandler,
-} from '../components/CarouselCards';
-const logo = require('../../assets/appflow/cipreview.png');
+import LandingImage from '../components/LandingImage';
 import {
   Text,
+  Image,
   View,
   StyleSheet,
-  Image,
 } from 'react-native';
+
+const logo = require('../../assets/appflow/cipreview.png');
+
 import CustomButton from '../components/CustomButton';
 
-export const GetStarted = () => {
+// get started screen
+export const GetStarted = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <CarouselCards />
+      <Image
+        source={logo}
+        style={{
+          position: 'absolute',
+          zIndex: 2,
+          marginTop: 44,
+          top: 0,
+        }}
+      />
 
+    <LandingImage/>
+<View>
+{}
+</View>
       <View style={styles.btnGroup}>
         <CustomButton
-          onPress={() => null}
+          onPress={() => navigation.navigate('SIGN UP')}
           title="GET STARTED"
           color="#FFFFFF"
         />
@@ -39,6 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     flexDirection: 'column',
+    flex:1
   },
   btnGroup: {
     margin: 50,

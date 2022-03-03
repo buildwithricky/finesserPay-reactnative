@@ -3,7 +3,7 @@ export default ({ ...config }) => ({
   splash: {
     image: './assets/iphone-preview.png',
     resizeMode: 'cover',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#EEB315',
   },
   android: {
     adaptiveIcon: {
@@ -11,4 +11,13 @@ export default ({ ...config }) => ({
       backgroundColor: '#FFFFFF',
     },
   },
+  // expo: {
+  //   name: 'your app name',
+  //   android: {
+  //     package: 'com.creativeIndustry.finesser',
+  //   },
+  //   ios: {
+  //     supportsTablet: true,
+  //   },
+  // },
 });
