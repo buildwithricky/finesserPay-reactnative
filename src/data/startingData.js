@@ -5,3 +5,4 @@ export default data =
     path: require('../../assets/appflow/getStarted.png'),
   }
 ;
+

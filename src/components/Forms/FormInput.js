@@ -10,6 +10,7 @@ const FormInput  = ({formWidth,value,label,type,setValue,placeholder,right, isHi
   return (
  <View>
  <TextInput
+ autoComplete="off"
         label={label}
         disabled={disabled}
         style={styles(formWidth).input}

@@ -1,13 +1,20 @@
-import 'react-native-gesture-handler';
-import AppLoading from 'expo-app-loading';
-import { Asset, useAssets } from 'expo-asset';
-import { GetStarted } from './src/screens/Getstarted';
-import SignUp from './src/screens/Signup'
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import AppLoading from "expo-app-loading";
+import { Asset, useAssets } from "expo-asset";
+import { GetStarted } from "./src/screens/authScreens/Getstarted";
+import SignUp from "./src/screens/authScreens/Signup";
+import Verify from "./src/screens/authScreens/Verify";
+import Completed from "./src/screens/authScreens/Completed";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Provider as PaperProvider } from "react-native-paper";
 
-import BackIcon from "./src/utils/BackIcon"
-import theme from  './src/utils/theme'
+import SideDrawer from "./src/Navigation/SideDrawer";
+
+import { SelectInterest } from "./src/screens/authScreens/SelectInterest";
+import { SelectAccountType } from "./src/screens/authScreens/SelectAccountType";
+
+import BackIcon from "./src/utils/BackIcon";
+import theme from "./src/utils/theme";
 
 //Fonts
 import {
@@ -17,29 +24,21 @@ import {
   Quicksand_500Medium,
   Quicksand_600SemiBold,
   Quicksand_700Bold,
-} from '@expo-google-fonts/quicksand';
-import {colors,fonts} from "./src/utils/utils"
-import Constants from 'expo-constants';
-import * as SplashScreen from 'expo-splash-screen';
-import * as Updates from 'expo-updates';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {
-  Animated,
-  Button,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+} from "@expo-google-fonts/quicksand";
+import { colors, fonts } from "./src/utils/utils";
+import Constants from "expo-constants";
+import * as SplashScreen from "expo-splash-screen";
+import * as Updates from "expo-updates";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Animated, StyleSheet, Text, View } from "react-native";
 
-import { createStackNavigator } from '@react-navigation/stack';
-const   Stack = createStackNavigator();
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
+import Tabs from "./src/Navigation/BottomTabs";
+
+const Stack = createStackNavigator();
 
 // Instruct SplashScreen not to hide yet, we want to do this manually
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -48,9 +47,9 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 
 export default function App() {
   const [assets, error] = useAssets([
-    require('./assets/iphone-preview.png'),
-    require('./assets/ios.png'),
-    require('./assets/adaptive.png'),
+    require("./assets/iphone-preview.png"),
+    require("./assets/ios.png"),
+    require("./assets/adaptive.png"),
   ]);
 
   let [fontsLoaded] = useFonts({
@@ -64,9 +63,7 @@ export default function App() {
     return <AppLoading />;
   } else {
     return assets ? (
-      <AnimatedAppLoader
-        image={require('./assets/iphone-preview.png')}>
-       
+      <AnimatedAppLoader image={require("./assets/iphone-preview.png")}>
         <MainScreen />
       </AnimatedAppLoader>
     ) : (
@@ -78,8 +75,7 @@ export default function App() {
 }
 
 function AnimatedAppLoader({ children, image }) {
-  const [isSplashReady, setSplashReady] =
-    useState(false);
+  const [isSplashReady, setSplashReady] = useState(false);
 
   const startAsync = useCallback(
     // If you use a local image with require(...), use `Asset.fromModule`
@@ -87,10 +83,7 @@ function AnimatedAppLoader({ children, image }) {
     [image]
   );
 
-  const onFinish = useCallback(
-    () => setSplashReady(true),
-    []
-  );
+  const onFinish = useCallback(() => setSplashReady(true), []);
 
   if (!isSplashReady) {
     return (
@@ -104,27 +97,13 @@ function AnimatedAppLoader({ children, image }) {
     );
   }
 
-  return (
-    <AnimatedSplashScreen image={image}>
-      {children}
-    </AnimatedSplashScreen>
-  );
+  return <AnimatedSplashScreen image={image}>{children}</AnimatedSplashScreen>;
 }
 
-function AnimatedSplashScreen({
-  children,
-  image,
-}) {
-  const animation = useMemo(
-    () => new Animated.Value(1),
-    []
-  );
-  const [isAppReady, setAppReady] =
-    useState(false);
-  const [
-    isSplashAnimationComplete,
-    setAnimationComplete,
-  ] = useState(false);
+function AnimatedSplashScreen({ children, image }) {
+  const animation = useMemo(() => new Animated.Value(1), []);
+  const [isAppReady, setAppReady] = useState(false);
+  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     if (isAppReady) {
@@ -157,19 +136,16 @@ function AnimatedSplashScreen({
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor:
-                Constants.manifest.splash
-                  .backgroundColor,
+              backgroundColor: Constants.manifest.splash.backgroundColor,
               opacity: animation,
             },
-          ]}>
+          ]}
+        >
           <Animated.Image
             style={{
-              width: '100%',
-              height: '100%',
-              resizeMode:
-                Constants.manifest.splash
-                  .resizeMode || 'contain',
+              width: "100%",
+              height: "100%",
+              resizeMode: Constants.manifest.splash.resizeMode || "contain",
               transform: [
                 {
                   scale: animation,
@@ -186,43 +162,70 @@ function AnimatedSplashScreen({
   );
 }
 // app entry point
-const MyStack = ()=>{
-  return(
-    <Stack.Navigator  screenOptions={{    
-    headerBackImage: ()=>(<BackIcon width={25} height={17} />),
-      headerTitleAlign: 'center', headerTitleStyle: {
-       color :colors.primaryColor,
-       fontSize:32,
-       fontFamily:fonts.bold,
-       lineHeight:40
-           
-          }, headerShadowVisible: false, // applied here
-    headerBackTitleVisible: false,  headerStyle: {
-           height:150 }}}>
-      <Stack.Screen name="gettingStarted" component={GetStarted} options={{headerShown: false}}  />
-      <Stack.Screen name="SIGN UP" component={SignUp} />
-      
-    </Stack.Navigator>
-  )
-  
-}
 
+// change default transition for android
+
+//app navigationComponent
+const AppNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        ...TransitionPresets.SlideFromRightIOS,
+        headerBackImage: () => <BackIcon width={25} height={17} />,
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          color: colors.primaryColor,
+          fontSize: 32,
+          fontFamily: fonts.semiBold,
+          lineHeight: 40,
+        },
+        headerShadowVisible: false, // applied here
+        headerBackTitleVisible: false,
+        headerStyle: {
+          height: 150,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="gettingStarted"
+        component={GetStarted}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="SIGN UP" component={SignUp} />
+      <Stack.Screen name="Verify" component={Verify} />
+      <Stack.Screen
+        name="Completed"
+        options={{ headerShown: false }}
+        component={SelectAccountType}
+      />
+      {/* <Stack.Screen name="Account Type"  options={{headerShown: false}}  component={SelectAccountType} /> */}
+      <Stack.Screen
+        name="SelectInterest"
+        options={{ headerShown: false }}
+        component={SelectInterest}
+      />
+      <Stack.Screen
+        name="Home"
+        options={{ headerShown: false }}
+        component={Tabs}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const MyStack = () => {
+  return <SideDrawer item={AppNavigator} />;
+};
 
 function MainScreen({ fonts }) {
-  const onReloadPress = useCallback(() => {
-    if (Platform.OS === 'web') {
-      location.reload();
-    } else {
-      Updates.reloadAsync();
-    }
-  }, []);
-
   return (
-    <PaperProvider theme={theme}>
-     <NavigationContainer>
-   <MyStack/>
-   </NavigationContainer >
-    </PaperProvider>
-  
+    <SafeAreaProvider>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <MyStack />
+        </NavigationContainer>
+      </PaperProvider>
+    </SafeAreaProvider>
   );
 }
