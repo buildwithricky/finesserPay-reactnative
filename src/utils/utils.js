@@ -4,6 +4,7 @@ export const { height, width } = Dimensions.get("screen");
 export const colors = {
   primaryColor: "#EEB315",
   secondaryColor: "#0B0B0B",
+  accent:"#1C1C1C",
   contextColor: "#FFFFFF",
 };
 

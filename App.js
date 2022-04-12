@@ -1,13 +1,15 @@
 import AppLoading from "expo-app-loading";
+import GlobalProvider from "./src/context/Provider";
 import { Asset, useAssets } from "expo-asset";
 import { GetStarted } from "./src/screens/authScreens/Getstarted";
 import SignUp from "./src/screens/authScreens/Signup";
+import Login from "./src/screens/authScreens/Login";
 import Verify from "./src/screens/authScreens/Verify";
 import Completed from "./src/screens/authScreens/Completed";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Provider as PaperProvider } from "react-native-paper";
-
+import { useGlobalContext } from "./src/context/Provider";
 import SideDrawer from "./src/Navigation/SideDrawer";
 
 import { SelectInterest } from "./src/screens/authScreens/SelectInterest";
@@ -25,6 +27,11 @@ import {
   Quicksand_600SemiBold,
   Quicksand_700Bold,
 } from "@expo-google-fonts/quicksand";
+import {
+  initialState,
+  userLoginReducer,
+} from "./src/context/reducers/userReducer";
+
 import { colors, fonts } from "./src/utils/utils";
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
@@ -37,6 +44,7 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import Tabs from "./src/Navigation/BottomTabs";
+import { AxiosProvider } from "./src/context/axiosContext";
 
 const Stack = createStackNavigator();
 
@@ -165,11 +173,11 @@ function AnimatedSplashScreen({ children, image }) {
 
 // change default transition for android
 
-//app navigationComponent
+//Login screen
 const AppNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="gettingStarted"
       screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         headerBackImage: () => <BackIcon width={25} height={17} />,
@@ -187,45 +195,114 @@ const AppNavigator = () => {
         },
       }}
     >
-      <Stack.Screen
-        name="gettingStarted"
-        component={GetStarted}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="SIGN UP" component={SignUp} />
-      <Stack.Screen name="Verify" component={Verify} />
-      <Stack.Screen
-        name="Completed"
-        options={{ headerShown: false }}
-        component={SelectAccountType}
-      />
-      {/* <Stack.Screen name="Account Type"  options={{headerShown: false}}  component={SelectAccountType} /> */}
-      <Stack.Screen
-        name="SelectInterest"
-        options={{ headerShown: false }}
-        component={SelectInterest}
-      />
-      <Stack.Screen
-        name="Home"
-        options={{ headerShown: false }}
-        component={Tabs}
-      />
+          <Stack.Screen
+            name="gettingStarted"
+            component={GetStarted}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen name="Verify" component={Verify} />
+          <Stack.Screen
+            name="Completed"
+            options={{ headerShown: false }}
+            component={Completed}
+          />
+          <Stack.Screen
+            name="Account Type"
+            options={{ headerShown: false }}
+            component={SelectAccountType}
+          />
+          <Stack.Screen
+            name="Select Interest"
+            options={{ headerShown: false }}
+            component={SelectInterest}
+          />
+          <Stack.Screen
+            name="LOGIN"
+            // options={{ headerShown: false }}
+            component={Login}
+          />
+          <Stack.Screen
+            name="SIGN UP"
+            // options={{ headerShown: false }}
+            component={SignUp}
+          />
     </Stack.Navigator>
   );
 };
 
-const MyStack = () => {
-  return <SideDrawer item={AppNavigator} />;
+// userAuthenticatedscreens
+const UserAuthScreen = ()=>{
+  return(
+       <Stack.Navigator
+      initialRouteName="gettingStarted"
+      screenOptions={{
+        ...TransitionPresets.SlideFromRightIOS,
+        headerBackImage: () => <BackIcon width={25} height={17} />,
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          color: colors.primaryColor,
+          fontSize: 32,
+          fontFamily: fonts.semiBold,
+          lineHeight: 40,
+        },
+        headerShadowVisible: false, // applied here
+        headerBackTitleVisible: false,
+        headerStyle: {
+          height: 150,
+        },
+      }}
+    >
+     
+      <Stack.Screen
+          name="Home"
+          options={{ headerShown: false }}
+          component={Tabs}
+        />
+
+    </Stack.Navigator>
+  )
+}
+
+const MyStackDrawer = () => {
+  return <SideDrawer item={UserAuthScreen} />;
 };
 
+const ScreenSet = ()=>{
+   const { globalState } = useGlobalContext();
+    if (globalState.isLoading) {
+    //wait for token to instantiate
+    return <AppLoading />;
+  }
+  return(
+    <>
+  {
+    globalState.userToken && globalState.userData ? 
+       <MyStackDrawer />
+    :
+  <AppNavigator/> 
+      
+}
+</>
+  )
+}
+
+// main application entry point
+  
+
+
 function MainScreen({ fonts }) {
+ 
   return (
-    <SafeAreaProvider>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <MyStack />
-        </NavigationContainer>
-      </PaperProvider>
-    </SafeAreaProvider>
+    <GlobalProvider initialState={initialState} reducer={userLoginReducer}>
+      <AxiosProvider>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            
+<ScreenSet/>
+          </NavigationContainer>
+        </PaperProvider>
+      </AxiosProvider>
+    </GlobalProvider>
   );
 }

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {View,StyleSheet}  from "react-native"
 import {TextInput,useTheme} from "react-native-paper"
-const FormInput  = ({formWidth,value,label,type,setValue,placeholder,right, isHidden,disabled}) => {
+const FormInput  = ({formWidth,value,label,type,setValue,placeholder,right, isHidden,disabled, name, onChangeText,keyboardType
+,onBlur}) => {
   const [number, onChangeNumber] = React.useState("");
   const theme = useTheme();
   const {colors} = theme
@@ -15,10 +16,13 @@ const FormInput  = ({formWidth,value,label,type,setValue,placeholder,right, isHi
         disabled={disabled}
         style={styles(formWidth).input}
 value={value}
-onChange ={()=>setValue}
+name={name}
+onChangeText = {onChangeText}
+onBlur={onBlur}
 placeholder={placeholder}
 right={right || ""}
  secureTextEntry = {type === 'password' ? isHidden :false}
+ keyboardType={keyboardType}
         textContentType={type}
         autoCapitalize="none"
         underlineColor="transparent"
