@@ -9,6 +9,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { colors, fonts, fontSizes } from "../../utils/utils";
 import { Loader } from "../../components/Loader";
@@ -64,6 +65,11 @@ const SignUp = ({ navigation }) => {
       style={{ flex: 1 }}
     >
       <SafeAreaView style={styles.container}>
+      <ScrollView 
+      showsVerticalScrollIndicator={false}
+     
+      
+    >
         <View style={styles.textCon}>
           <Text style={styles.text}>Lets get you started</Text>
         </View>
@@ -176,7 +182,7 @@ const SignUp = ({ navigation }) => {
                   />
                 </View>
                 {errors.phonenumber && touched.phonenumber && (
-                  <Text style={{ fontSize: 10, color: "red" }}>
+                  <Text style={{ fontSize: 10, color: "#000" }}>
                     {errors.phonenumber}
                   </Text>
                 )}
@@ -191,7 +197,7 @@ const SignUp = ({ navigation }) => {
                   />
                 </View>
                 {errors.email && touched.email && (
-                  <Text style={{ fontSize: 10, color: "red" }}>
+                  <Text style={{ fontSize: 10, color: "#000" }}>
                     {errors.email}
                   </Text>
                 )}
@@ -215,7 +221,7 @@ const SignUp = ({ navigation }) => {
                   />
                 </View>
                 {errors.password && touched.password && (
-                  <Text style={{ fontSize: 10, color: "red" }}>
+                  <Text style={{ fontSize: 10, color: "#000" }}>
                     {errors.password}
                   </Text>
                 )}
@@ -228,7 +234,7 @@ const SignUp = ({ navigation }) => {
                     handleSubmit();
                     // navigation.navigate("Verify");
                   }}
-                  disabled={!(isValid && dirty)}
+                  disabled={!(isValid && dirty && checked)}
                   title="Sign up"
                   color="#FFFFFF"
                 />
@@ -286,6 +292,7 @@ const SignUp = ({ navigation }) => {
             setAreas={setAreas}
           />
         </View>
+      </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -338,12 +345,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   lowers: {
-    color: "#b2b2b2",
+    color: "#1C1C1C",
     fontFamily: fonts.regular,
     fontSize: 14,
   },
   special: {
-    color: "#6e7beb",
+    color: "#1C1C1C",
     fontFamily: fonts.bold,
     fontSize: 14,
   },

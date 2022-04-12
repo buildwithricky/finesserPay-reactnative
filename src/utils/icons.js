@@ -14,6 +14,12 @@ import invoicing from "../../assets/icons/drawerIcons/Document.png";
 import legal from "../../assets/icons/drawerIcons/legal.png";
 import settings from "../../assets/icons/drawerIcons/setting.png";
 import logout from "../../assets/icons/drawerIcons/logout.png";
+import payment from "../../assets/icons/homeIcons/payment.png";
+import payout from "../../assets/icons/homeIcons/payout.png";
+import topup from "../../assets/icons/homeIcons/topup.png";
+import transfer from "../../assets/icons/homeIcons/transfer.png";
+
+
 
 export const icons = {
   homeIcon,
@@ -38,3 +44,9 @@ logout,
 };
 
 
+export const homeicons ={
+  payout ,
+  payment,
+  topup,
+  transfer
+}

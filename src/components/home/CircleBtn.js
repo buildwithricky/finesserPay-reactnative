@@ -1,15 +1,15 @@
 import React from "react"
 import {View ,Text, TouchableWithoutFeedBack,Image,StyleSheet} from "react-native"
 import {fonts} from "../../utils/utils"
-const CircleBtn = (icon,text)=>{
+const CircleBtn = ({icon,text})=>{
     
     return(
-        <View style={styles.container}>
+        <View>
             <View style={styles.iconContainer}>
                 <Image source={icon}/>
             </View>
             <View style={styles.textContainer}>
-              <Text>ss</Text>  
+              <Text style={styles.text}>{text}</Text>  
             </View>
         </View>
     )
@@ -19,11 +19,9 @@ export default CircleBtn
 
 
 
+// circle sizes
 const styles = StyleSheet.create({
-    container:{
-             width:52,
-    }
-    ,
+ 
     iconContainer:{
     height:48,
     width:48,
@@ -51,6 +49,7 @@ fontFamily:fonts.medium,
 fontSize: 13,
 lineHeight: 20,
 letterSpacing: 0.005,
+
 
 
     }

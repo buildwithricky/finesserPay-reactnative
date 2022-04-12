@@ -111,13 +111,15 @@ const Login = ({ navigation }) => {
                   />
                 </View>
                 {errors.email && touched.email && (
-                  <Text style={{ fontSize: 10, color: "red" }}>
+                  <Text style={{ fontSize: 10, color: "#000000" }}>
                     {errors.email}
                   </Text>
                 )}
                 <View style={styles.formRow}>
                   <FormInput
+                  
                     name="password"
+                    type="password"
                     placeholder="Password"
                     isHidden={show}
                     onChangeText={handleChange("password")}
@@ -129,6 +131,7 @@ const Login = ({ navigation }) => {
                         onPress={() => {
                           setShow(!show);
                         }}
+                  
                       />
                     }
                     formWidth={width * 0.9}
@@ -146,11 +149,11 @@ const Login = ({ navigation }) => {
             <Text style={styles.forgotPassword}>Forgot Password ?</Text>
           </View>
                 {errors.password && touched.password && (
-                  <Text style={{ fontSize: 10, color: "red" }}>
+                  <Text style={{ fontSize: 10, color: "#000" }}>
                     {errors.password}
                   </Text>
                 )}
-                {data.isLoading ? <Loader /> : <Text style={{padding:10,color:"red"}}>{data.errorMessage}</Text>}
+                {data.isLoading ? <Loader /> : <Text style={{padding:10,color:"#000"}}>{data.errorMessage}</Text>}
                 
                 
                 <CustomButton

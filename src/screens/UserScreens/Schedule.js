@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { colors, fonts, fontSizes } from "../../utils/utils";
 const Schdule = () => {
+   useEffect(() => {
+   alert("still in development come back soon") 
+  }, [])
   return (
     <View style={styles.container}>
-      <Text>Schedule</Text>
+      <Text>Schedule is still in development check back soon</Text>
     </View>
   );
 };

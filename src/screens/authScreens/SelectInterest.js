@@ -81,7 +81,8 @@ export const SelectInterest = ({ navigation, route }) => {
 
               if (response.data.status === "success") {
                 setData({ ...data, isLoading: false });
-                navigation.navigate("Completed");
+                navigation.navigate("Completed"
+                )
               } else {
                 setData({
                   ...data,

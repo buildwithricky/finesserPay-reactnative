@@ -21,12 +21,16 @@ onChangeText = {onChangeText}
 onBlur={onBlur}
 placeholder={placeholder}
 right={right || ""}
+
  secureTextEntry = {type === 'password' ? isHidden :false}
  keyboardType={keyboardType}
         textContentType={type}
         autoCapitalize="none"
         underlineColor="transparent"
         selectionColor="#000000"
+       
+        outlineColor="#ffffff"
+      activeOutlineColor="#000000"
         theme ={{...theme,roundness:15,colors:{...colors,text:'black',primary:'transparent'}}}
       />
     </View>
@@ -39,8 +43,6 @@ const styles = (props) =>StyleSheet.create({
    width:props,
     backgroundColor:'#F2F2F2',
     height:60,
- 
-    
     borderRadius:15,
 
   },

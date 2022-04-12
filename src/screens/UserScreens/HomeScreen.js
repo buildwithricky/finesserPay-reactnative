@@ -3,10 +3,37 @@ import { View, Text, Button, StyleSheet, ImageBackground,StatusBar,ScrollView } 
 import { colors, fonts, fontSizes, width } from "../../utils/utils";
 import CircleBtn from "../../components/home/CircleBtn"
 import { Switch } from "react-native-switch";
-
+import {homeicons} from "../../utils/icons"
 import card from "../../../assets/card.png";
 import { useGlobalContext } from "../../context/Provider";
+import TransactionList from "../../components/home/Transactions/TransactionList"
+
+//home screen mock data
+  const homedata =[
+    {
+      name:"Transfer",
+      icon:homeicons.transfer
+      
+    },
+     {
+      name:"Payment",
+      icon:homeicons.payment,
+      
+    }, 
+    {
+      name:"Payout",
+      icon:homeicons.payout
+      
+    },
+     {
+      name:"Top up",
+      icon:homeicons.topup
+      
+    },
+  ]
+
 const HomeScreen = () => {
+
   const [isBalanceShow, setIsBalanceShow] = useState(true);
   const toggleSwitch = () =>
     setIsBalanceShow((previousState) => !previousState);
@@ -137,11 +164,26 @@ const HomeScreen = () => {
         </ImageBackground>
       </View>
       
+      {/* action buttons */}
+      <View style={{
+        justifyContent:"center",
+        alignItems:"center"
+      }}>
+        
       <View style={styles.btnContainer}>
-        <CircleBtn/>
-         <CircleBtn/>
-          <CircleBtn/>
-           <CircleBtn/>
+        {homedata.map((item,index)=>{
+          return(
+            <CircleBtn key={index} icon={item.icon} text={item.name}/>
+          )
+        })}
+        
+      
+      </View>
+      </View>
+      
+      {/* transactionlist */}
+      <View>
+        <TransactionList/>
       </View>
       </View>
    
@@ -185,6 +227,7 @@ const styles = StyleSheet.create({
   btnContainer:{
     marginTop:41,
     height:78,
+    width:279,
     justifyContent:"space-between",
     flexDirection:"row",
     alignItems:"center"

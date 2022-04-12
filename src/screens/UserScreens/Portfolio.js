@@ -1,6 +1,9 @@
-import  React from "react"
+import  React,{useEffect} from "react"
 import {Text ,View} from"react-native"
 const Portfolio = ()=>{
+     useEffect(() => {
+   alert("still in development come back soon") 
+  }, [])
     return(
         
         <View>

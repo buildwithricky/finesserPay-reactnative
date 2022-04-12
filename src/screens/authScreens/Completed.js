@@ -1,5 +1,5 @@
 import React from "react";
-
+import CustomButton from "../../components/CustomButton";
 import {
   View,
   SafeAreaView,
@@ -13,7 +13,7 @@ import Logo from "../../../assets/Logob.png";
 import completed from "../../../assets/completed.png";
 import { fonts, fontSizes } from "../../utils/utils";
 const { width, height } = Dimensions.get("screen");
-const Completed = () => {
+const Completed = ({navigation,route}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -27,11 +27,24 @@ const Completed = () => {
         </View>
         <Text style={styles.text}> Welcome on Board !</Text>
         <Text style={styles.light}>You’re all Set</Text>
-        <Text style={styles.light}>Enjoy</Text>
+        <Text style={styles.light}>Proceed to login </Text>
       </View>
 
       <View>
         <Image source={Logo} />
+      </View>
+      <View>
+                        <CustomButton
+                  onPress={() => {
+                    // send user data  to verify page
+
+                   
+                    navigation.navigate("LOGIN");
+                  }}
+                  
+                  title="Welcome"
+                  color="#FFFFFF"
+                />
       </View>
     </SafeAreaView>
   );
