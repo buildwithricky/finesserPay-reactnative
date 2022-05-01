@@ -1,5 +1,8 @@
 import AppLoading from "expo-app-loading";
 import GlobalProvider from "./src/context/Provider";
+import ForgetPassword from "./src/screens/authScreens/forgetPassword/ForgetPassword";
+import NewPassword from "./src/screens/authScreens/forgetPassword/NewPassword";
+import Otpverification from "./src/screens/authScreens/forgetPassword/OtpVerification";
 import { Asset, useAssets } from "expo-asset";
 import { GetStarted } from "./src/screens/authScreens/Getstarted";
 import SignUp from "./src/screens/authScreens/Signup";
@@ -184,9 +187,9 @@ const AppNavigator = () => {
         headerTitleAlign: "center",
         headerTitleStyle: {
           color: colors.primaryColor,
-          fontSize: 32,
+          fontSize: 24,
           fontFamily: fonts.semiBold,
-          lineHeight: 40,
+          lineHeight: 30,
         },
         headerShadowVisible: false, // applied here
         headerBackTitleVisible: false,
@@ -195,46 +198,41 @@ const AppNavigator = () => {
         },
       }}
     >
-          <Stack.Screen
-            name="gettingStarted"
-            component={GetStarted}
-            options={{ headerShown: false }}
-          />
+      <Stack.Screen
+        name="gettingStarted"
+        component={GetStarted}
+        options={{ headerShown: false }}
+      />
 
-          <Stack.Screen name="Verify" component={Verify} />
-          <Stack.Screen
-            name="Completed"
-            options={{ headerShown: false }}
-            component={Completed}
-          />
-          <Stack.Screen
-            name="Account Type"
-            options={{ headerShown: false }}
-            component={SelectAccountType}
-          />
-          <Stack.Screen
-            name="Select Interest"
-            options={{ headerShown: false }}
-            component={SelectInterest}
-          />
-          <Stack.Screen
-            name="LOGIN"
-            // options={{ headerShown: false }}
-            component={Login}
-          />
-          <Stack.Screen
-            name="SIGN UP"
-            // options={{ headerShown: false }}
-            component={SignUp}
-          />
+      <Stack.Screen name="Verify" component={Verify} />
+      <Stack.Screen
+        name="Completed"
+        options={{ headerShown: false }}
+        component={Completed}
+      />
+      <Stack.Screen
+        name="Account Type"
+        options={{ headerShown: false }}
+        component={SelectAccountType}
+      />
+      <Stack.Screen
+        name="Select Interest"
+        options={{ headerShown: false }}
+        component={SelectInterest}
+      />
+      <Stack.Screen name="LOGIN" component={Login} />
+      <Stack.Screen name="FORGOT PASSWORD" component={ForgetPassword} />
+      <Stack.Screen name="OTP VERIFICATION" component={Otpverification} />
+      <Stack.Screen name="RESET PASSWORD" component={NewPassword} />
+      <Stack.Screen name="SIGN UP" component={SignUp} />
     </Stack.Navigator>
   );
 };
 
 // userAuthenticatedscreens
-const UserAuthScreen = ()=>{
-  return(
-       <Stack.Navigator
+const UserAuthScreen = () => {
+  return (
+    <Stack.Navigator
       initialRouteName="gettingStarted"
       screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
@@ -253,53 +251,45 @@ const UserAuthScreen = ()=>{
         },
       }}
     >
-     
       <Stack.Screen
-          name="Home"
-          options={{ headerShown: false }}
-          component={Tabs}
-        />
-
+        name="Home"
+        options={{ headerShown: false }}
+        component={Tabs}
+      />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const MyStackDrawer = () => {
   return <SideDrawer item={UserAuthScreen} />;
 };
 
-const ScreenSet = ()=>{
-   const { globalState } = useGlobalContext();
-    if (globalState.isLoading) {
+const ScreenSet = () => {
+  const { globalState } = useGlobalContext();
+  if (globalState.isLoading) {
     //wait for token to instantiate
     return <AppLoading />;
   }
-  return(
+  return (
     <>
-  {
-    globalState.userToken && globalState.userData ? 
-       <MyStackDrawer />
-    :
-  <AppNavigator/> 
-      
-}
-</>
-  )
-}
+      {globalState.userToken && globalState.userData ? (
+        <MyStackDrawer />
+      ) : (
+        <AppNavigator />
+      )}
+    </>
+  );
+};
 
 // main application entry point
-  
-
 
 function MainScreen({ fonts }) {
- 
   return (
     <GlobalProvider initialState={initialState} reducer={userLoginReducer}>
       <AxiosProvider>
         <PaperProvider theme={theme}>
           <NavigationContainer>
-            
-<ScreenSet/>
+            <ScreenSet />
           </NavigationContainer>
         </PaperProvider>
       </AxiosProvider>

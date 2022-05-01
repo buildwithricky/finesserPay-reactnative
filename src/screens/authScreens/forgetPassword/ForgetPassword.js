@@ -1,26 +1,25 @@
 import React, { useState, useContext } from "react";
-import loginValidationSchema from "../../formValidations/loginValidation";
+import loginValidationSchema from "../../../formValidations/loginValidation";
 import * as SecureStore from "expo-secure-store";
-import { useGlobalContext } from "../../context/Provider";
-import { Loader } from "../../components/Loader";
+import { useGlobalContext } from "../../../context/Provider";
+import { Loader } from "../../../components/Loader";
 import {
   View,
   Text,
   StyleSheet,
-  Pressable,
   SafeAreaView,
   Image,
   Dimensions,
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
-import { colors, fonts, fontSizes } from "../../utils/utils";
-import CustomButton from "../../components/CustomButton";
+import { colors, fonts, fontSizes } from "../../../utils/utils";
+import CustomButton from "../../../components/CustomButton";
 import { TextInput } from "react-native-paper";
-import FormInput from "../../components/Forms/FormInput";
+import FormInput from "../../../components/Forms/FormInput";
 import { Formik } from "formik";
-import { AxiosContext } from "../../context/axiosContext";
-import { GET_USER } from "../../context/reducers/userReducer";
+import { AxiosContext } from "../../../context/axiosContext";
+import { GET_USER } from "../../../context/reducers/userReducer";
 const { height, width } = Dimensions.get("screen");
 
 const Login = ({ navigation }) => {
@@ -55,10 +54,10 @@ const Login = ({ navigation }) => {
     >
       <SafeAreaView style={styles.container}>
         <View style={styles.textCon}>
-          <Text style={styles.text}>Welcome back</Text>
-        </View>
-        <View style={styles.textCon}>
-          <Text style={styles.subText}>Login to finesser</Text>
+          <Text style={styles.subText}>
+            To help you reset your password, enter the email you used in
+            registering and we will send you reset instructions.
+          </Text>
         </View>
 
         <View style={styles.formContainer}>
@@ -118,46 +117,7 @@ const Login = ({ navigation }) => {
                     {errors.email}
                   </Text>
                 )}
-                <View style={styles.formRow}>
-                  <FormInput
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    isHidden={show}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    right={
-                      <TextInput.Icon
-                        name="eye-off"
-                        onPress={() => {
-                          setShow(!show);
-                        }}
-                      />
-                    }
-                    formWidth={width * 0.9}
-                  />
-                </View>
 
-                <View
-                  style={{
-                    display: "flex",
-                    width: width * 0.9,
-                    alignItems: "flex-end",
-                  }}
-                >
-                  <Pressable
-                    pressRetentionOffset={25}
-                    onPress={() => navigation.navigate("FORGOT PASSWORD")}
-                  >
-                    <Text style={styles.forgotPassword}>Forgot Password ?</Text>
-                  </Pressable>
-                </View>
-                {errors.password && touched.password && (
-                  <Text style={{ fontSize: 10, color: "#000" }}>
-                    {errors.password}
-                  </Text>
-                )}
                 {data.isLoading ? (
                   <Loader />
                 ) : (
@@ -167,30 +127,13 @@ const Login = ({ navigation }) => {
                 )}
 
                 <CustomButton
-                  onPress={() => handleSubmit()}
-                  title="Login"
+                  onPress={() => navigation.navigate("OTP VERIFICATION")}
+                  title="Send Link"
                   color="#FFFFFF"
                 />
               </>
             )}
           </Formik>
-        </View>
-
-        <View style={styles.terms}>
-          <View
-            style={{
-              alignItems: "center",
-              marginBottom: 30,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              onPress={() => navigation.navigate("SIGN UP")}
-              style={styles.lowers}
-            >
-              Don't have an Account <Text style={styles.special}>SIGN UP</Text>
-            </Text>
-          </View>
         </View>
       </SafeAreaView>
     </KeyboardAvoidingView>
@@ -226,37 +169,6 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     width: width * 0.9,
     justifyContent: "space-between",
-  },
-  finalRow: {
-    flexDirection: "row",
-    marginBottom: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  lower: {
-    color: "#b2b2b2",
-    fontFamily: fonts.regular,
-    fontSize: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  terms: {
-    justifyContent: "center",
-  },
-  lowers: {
-    color: "#b2b2b2",
-    fontFamily: fonts.regular,
-    fontSize: 14,
-  },
-  forgotPassword: {
-    color: "#1C1C1C",
-    fontSize: 14,
-    fontFamily: fonts.regular,
-  },
-  special: {
-    color: "#1C1C1C",
-    fontFamily: fonts.bold,
-    fontSize: 14,
   },
 });
 

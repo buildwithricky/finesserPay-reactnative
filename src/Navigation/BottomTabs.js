@@ -1,13 +1,15 @@
 import React from "react";
 import {
   Text,
+  StyleSheet,
   Image,
   Pressable,
   View,
   TouchableOpacity,
   Dimensions,
   Platform,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { icons } from "../utils/icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -21,6 +23,7 @@ import Schedule from "../screens/UserScreens/Schedule";
 
 import Notify from "../screens/UserScreens/Notify";
 import Profile from "../screens/UserScreens/Profile";
+import PlusButton from "../components/PlusButton";
 
 const { height } = Dimensions.get("screen");
 // tab navigation
@@ -31,13 +34,11 @@ const buttonNativeFeedback = ({ children, style, ...props }) => (
   <TouchableNativeFeedback
     {...props}
     useForeground={true}
-    background={TouchableNativeFeedback.Ripple('#00000', false,55)}
-  
-    >
-      
+    background={TouchableNativeFeedback.Ripple("#00000", false, 55)}
+  >
     <View style={style}>{children}</View>
   </TouchableNativeFeedback>
-)
+);
 
 const buttonOpacity = (props) => <TouchableOpacity {...props} />;
 const Tabs = () => {
@@ -95,8 +96,6 @@ const Tabs = () => {
           }
 
           return (
-          
-        
             <Image
               source={iconName}
               style={{
@@ -104,29 +103,29 @@ const Tabs = () => {
                 resizeMode: "contain",
               }}
             />
-           
           );
         },
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "gray",
-        tabBarButton:Platform.os === "ios" ? buttonOpacity :buttonNativeFeedback,
+        tabBarButton:
+          Platform.os === "ios" ? buttonOpacity : buttonNativeFeedback,
 
         tabBarStyle: {
           height: 80,
-          overflow:"hidden",
+          overflow: "hidden",
           borderTopStartRadius: 30,
           position: "absolute",
           borderTopEndRadius: 30,
           shadowColor: "#000000",
           shadowOffset: { width: 5, height: 10 },
-          shadowRadius: 2,
+          shadowRadius: 6,
           elevation: 10,
         },
         tabBarLabelStyle: {
           marginBottom: 15,
-          fontFamily:fonts.semiBold,
-          fontSize:8,
-          color:"#1C1C1C"
+          fontFamily: fonts.semiBold,
+          fontSize: 8,
+          color: "#1C1C1C",
         },
         tabBarBadgeStyle: {
           backgroundColor: "#EEB315",
@@ -134,7 +133,7 @@ const Tabs = () => {
         },
         tabBarItemStyle: {
           paddingTop: 15,
-         
+
           justifyConter: "center",
         },
       })}
@@ -146,7 +145,7 @@ const Tabs = () => {
           headerRight: (props) => (
             <Text>
               <Image source={drawerIcons.downArrow} />
-              individual/music
+              Individual/Music
             </Text>
           ),
           headerTitle: (props) => (
@@ -160,14 +159,28 @@ const Tabs = () => {
           ),
         }}
       />
-      <Tab.Screen name="WALLET" component={Wallet} />
+      <Tab.Screen
+        name="WALLET"
+        component={Wallet}
+        options={{
+          headerRight: (props) => <PlusButton />,
+        }}
+      />
       <Tab.Screen name="SCHEDULE" component={Schedule} />
       <Tab.Screen
         name="NOTIFY"
         component={Notify}
         options={{ tabBarBadge: 3 }}
       />
-      <Tab.Screen name="PROFILE" component={Profile} />
+      <Tab.Screen
+        name="PROFILE"
+        component={Profile}
+        options={{
+          headerTitleContainerStyle: {
+            display: "none",
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 };
