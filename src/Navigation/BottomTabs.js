@@ -108,7 +108,7 @@ const Tabs = () => {
         tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "gray",
         tabBarButton:
-          Platform.os === "ios" ? buttonOpacity : buttonNativeFeedback,
+          Platform.OS === "ios" ? buttonOpacity : buttonNativeFeedback,
 
         tabBarStyle: {
           height: 80,

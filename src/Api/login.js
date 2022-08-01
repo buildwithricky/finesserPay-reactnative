@@ -17,11 +17,11 @@ export const loginUser = async (data) => {
       data: userData,
     };
     const response = await axios(config);
+    console.log(response);
     return response;
   } catch (e) {
-    console.log(e.response)
-     console.log("an error", e.response.data);
-    return e.response
-   
+    console.log(e.response);
+    console.log("an error", e.response.data);
+    return e.response;
   }
 };

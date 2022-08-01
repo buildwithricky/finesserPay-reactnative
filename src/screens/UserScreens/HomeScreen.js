@@ -8,10 +8,11 @@ import {
   StatusBar,
   ScrollView,
   Pressable,
+  Switch,
 } from "react-native";
 import { colors, fonts, fontSizes, width } from "../../utils/utils";
 import CircleBtn from "../../components/home/CircleBtn";
-import { Switch } from "react-native-switch";
+
 import { homeicons } from "../../utils/icons";
 import card from "../../../assets/card.png";
 import { useGlobalContext } from "../../context/Provider";
